@@ -66,10 +66,12 @@ def get_all_comments(url,page):
         encSecKey = get_encSecKey()
         json_text = get_json(url,params,encSecKey)
         json_dict = json.loads(json_text)
+       
         try:   
             for item in json_dict['comments']:
                 comment = item['content'] # 评论内容
                 comment_info = str(comment)
+                print(comment)
                 all_comments_list.append(comment_info)
         except:
             print(json_dict)
