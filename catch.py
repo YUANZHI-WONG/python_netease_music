@@ -7,9 +7,14 @@ import time
 import random
 
 
+
+
 headers = {
-    'Cookie': 'appver=1.5.0.75771;',
-    'Referer': 'http://music.163.com/'
+    'Cookie': 'appver=1.5.0.7573471;',
+    'Host':'music.163.com',
+    'Origin':'https://music.163.com',
+    'Referer':'https://music.163.com/song?id=374597',
+    'User-Agent':'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_4) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/65.0.3325.181 Safari/537.36'
 }
 
 first_param = '{rid:"", offset:"20", total:"false", limit:"50", csrf_token:""}'
