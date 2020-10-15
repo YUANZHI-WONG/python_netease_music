@@ -3,6 +3,8 @@ from Crypto.Cipher import AES
 import base64
 import requests
 import json
+import time
+import random
 
 
 headers = {
@@ -10,18 +12,25 @@ headers = {
     'Referer': 'http://music.163.com/'
 }
 
-first_param = '{rid:"", offset:"23920", total:"false", limit:"50", csrf_token:""}'
+first_param = '{rid:"", offset:"20", total:"false", limit:"50", csrf_token:""}'
 #offset就是（评论页数-1） * 20，total在第一页是true，其余是false
 
 second_param = "010001"
 third_param = "00e0b509f6259df8642dbc35662901477df22677ec152b5ff68ace615bb7b725152b3ab17a876aea8a5aa76d2e417629ec4ee341f56135fccf695280104e0312ecbda92557c93870114af6c9d05c4f7f0c3685b7a46bee255932575cce10b424d813cfe4875d3e82047b97ddef52741d546b8e289dc6935b3ece0462db0a22b8e7"
 forth_param = "0CoJUm6Qyw8W8jud"
 
-def get_params():
+# 获取参数
+def get_params(page): # page为传入页数
     iv = b"0102030405060708"
     first_key = forth_param
     second_key = 16 * 'F'
-    h_encText = AES_encrypt(first_param, first_key, iv)
+    if(page == 1): # 如果为第一页
+        first_param = '{rid:"", offset:"0", total:"true", limit:"20", csrf_token:""}'
+        h_encText = AES_encrypt(first_param, first_key, iv)
+    else:
+        offset = str((page-1)*20)
+        first_param = '{rid:"", offset:"%s", total:"%s", limit:"20", csrf_token:""}' %(offset,'false')
+        h_encText = AES_encrypt(first_param, first_key, iv)
     h_encText = AES_encrypt(h_encText, second_key, iv)
     return h_encText
 
@@ -49,21 +58,38 @@ def get_json(url, params, encSecKey):
     response = requests.post(url, headers=headers, data=data)
     return response.content
 
+# 抓取某一首歌的前100页评论
+def get_all_comments(url,page):
+    all_comments_list = [] # 存放所有评论
+    for i in range(page):  # 逐页抓取
+        params = get_params(i+1)
+        encSecKey = get_encSecKey()
+        json_text = get_json(url,params,encSecKey)
+        json_dict = json.loads(json_text)
+        for item in json_dict['comments']:
+            comment = item['content'] # 评论内容
+            comment_info = str(comment)
+            all_comments_list.append(comment_info)
+        print('第%d页抓取完毕!' % (i+1))
+        time.sleep(random.choice(range(1,3)))  #爬取过快的话，设置休眠时间，跑慢点，减轻服务器负担
+    return all_comments_list
+
 
 if __name__ == "__main__":
     url = "http://music.163.com/weapi/v1/resource/comments/R_SO_4_374597/?csrf_token="   #  R_SO_4_加上歌曲的id就是抓取评论的API
     
+    all_comments = get_all_comments(url, page=10)  # 需要爬取的页面数
+    print(all_comments)
     
+    
+    '''
     params = get_params();          #获取 first_param 经过AES两次加密后的结果
     encSecKey = get_encSecKey();
     json_text = get_json(url, params, encSecKey)
     json_dict = json.loads(json_text)
     
     try:
-        
-    
-        print(json_dict)
-
+      
         for item in json_dict['comments']:
             print(item['content'])
                   
@@ -71,5 +97,6 @@ if __name__ == "__main__":
 
     except:
         print (json_dict)
+        '''
 
 
