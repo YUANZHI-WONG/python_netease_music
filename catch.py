@@ -74,7 +74,7 @@ def get_all_comments(url,page):
         except:
             print(json_dict)
         print('第%d页抓取完毕!' % (i+1))
-        time.sleep(random.choice(range(1,3)))  #爬取过快的话，设置休眠时间，跑慢点，减轻服务器负担
+        time.sleep(random.choice(range(2,6)))  #爬取过快的话，设置休眠时间，跑慢点，减轻服务器负担
     return all_comments_list
 
 
