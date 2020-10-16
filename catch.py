@@ -8,28 +8,16 @@ import random
 
 
 
-my_headers = [
-    "Mozilla/5.0 (Windows NT 6.3; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/39.0.2171.95 Safari/537.36",
-    "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_9_2) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/35.0.1916.153 Safari/537.36",
-    "Mozilla/5.0 (Windows NT 6.1; WOW64; rv:30.0) Gecko/20100101 Firefox/30.0",
-    "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_9_2) AppleWebKit/537.75.14 (KHTML, like Gecko) Version/7.0.3 Safari/537.75.14",
-    "Mozilla/5.0 (compatible; MSIE 10.0; Windows NT 6.2; Win64; x64; Trident/6.0)",
-    'Mozilla/5.0 (Windows; U; Windows NT 5.1; it; rv:1.8.1.11) Gecko/20071127 Firefox/2.0.0.11',
-    'Opera/9.25 (Windows NT 5.1; U; en)',
-    'Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1; SV1; .NET CLR 1.1.4322; .NET CLR 2.0.50727)',
-    'Mozilla/5.0 (compatible; Konqueror/3.5; Linux) KHTML/3.5.5 (like Gecko) (Kubuntu)',
-    'Mozilla/5.0 (X11; U; Linux i686; en-US; rv:1.8.0.12) Gecko/20070731 Ubuntu/dapper-security Firefox/1.5.0.12',
-    'Lynx/2.8.5rel.1 libwww-FM/2.14 SSL-MM/1.4.1 GNUTLS/1.2.9',
-    "Mozilla/5.0 (X11; Linux i686) AppleWebKit/535.7 (KHTML, like Gecko) Ubuntu/11.04 Chromium/16.0.912.77 Chrome/16.0.912.77 Safari/535.7",
-    "Mozilla/5.0 (X11; Ubuntu; Linux i686; rv:10.0) Gecko/20100101 Firefox/10.0 "]
 
 
 headers = {
-    'Cookie': 'appver=1.5.0.75771;',
+
+    'content-type':'application/x-www-form-urlencoded'
+    'cookie':'_iuqxldmzr_=32; _ntes_nnid=30d98f25eb6c5f49c33c6afcbf0bcb8a,1592997711464; _ntes_nuid=30d98f25eb6c5f49c33c6afcbf0bcb8a; WM_TID=qecawFKf3t9FEUUBUVY%2FHbw9Q1QSbLk4; ntes_kaola_ad=1; mail_psc_fingerprint=50abad436a9db9dbce7970da6751f786; vinfo_n_f_l_n3=1acba15b97f98f69.1.0.1597198752056.0.1597198767601; NMTID=00Opi5KUfSfNaLFnUzxoWAP1GWbCfgAAAF1G_ctug; P_INFO=wangxu5789@126.com|1602659300|0|mail126|00&99|bej&1602659297&mail_client#bej&null#10#0#0|&0|yanxuan&mailmaster_android&mail126_qrcode|wangxu5789@126.com; JSESSIONID-WYYY=my%2BNqUCflpn6%2B5%5CP4yN%2Bc%2B%2BI0GI6dy9wzzKozMMGldigvbvUWPQjBzHB2UXaZdNYu9lR31AfDm7aH%2BWbOdOyQTtAJRWyBijIJWmC2wRg7NTUEmbPFdKC8XvYKOM2nPppmPM404pobN0EwTXVRdoZkJwWVzutoNTjpwYZ563J4XSmn8j0%3A1602857658354; WM_NI=TEZEDOSRjedOjaAw8qY8Nnowswpq4%2FvVtsnSDHd%2F4e71DUvlg9tiD6ubyvlYBmLjH31t3eO1Gc5IIdTeJMy7YzIleB44NGgVj19E1oQL1nsZ%2F95OSI5wqjd5ujnxAUnENFo%3D; WM_NIKE=9ca17ae2e6ffcda170e2e6eeaefc5f97f0a9b3ca66fc8a8ea7d14f828b9b84f470bcb08d8fd265edb589d5cb2af0fea7c3b92a989b96a6c745918ea686e745aabf8f98bb7b9be8828fee7db1a9c092b725b68abc94ed598898acd0b76ff5ef8cb6f568a5e7bc8ac73eb7beb797ef5382b3848bcb39f3acfd86ce3b85bdfbaacc7098bb86aefc3d9ba6878de84af8ec82a8e65eaaeff7a6b4659394ff8ff252ede7fbb0d243f7a9bf8be73fb7b6a299c45fae9b82a7ee37e2a3'
     'Host':'music.163.com',
     'Origin':'https://music.163.com',
-    'Referer':'https://music.163.com/song?id=374597',
-    'User-Agent':str(random.choice(my_headers))
+    'Referer':'https://music.163.com/song?id=1421256202',
+    'User-Agent':'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/86.0.4240.75 Safari/537.36 Edg/86.0.622.38'
 }
 
 first_param = '{rid:"", offset:"20", total:"false", limit:"50", csrf_token:""}'
@@ -99,14 +87,14 @@ def get_all_comments(url,page):
         except:
             print(json_dict)
         print('第%d页抓取完毕!' % (i+1))
-        time.sleep(random.choice(range(2,6)))  #爬取过快的话，设置休眠时间，跑慢点，减轻服务器负担
+        time.sleep(random.choice(range(2,10)))  #爬取过快的话，设置休眠时间，跑慢点，减轻服务器负担
     return all_comments_list
 
 
 if __name__ == "__main__":
-    url = "http://music.163.com/weapi/v1/resource/comments/R_SO_4_374568/?csrf_token="   #  R_SO_4_加上歌曲的id就是抓取评论的API
+    url = "http://music.163.com/weapi/v1/resource/comments/R_SO_4_1421256202/?csrf_token="   #  R_SO_4_加上歌曲的id就是抓取评论的API
     
-    all_comments = get_all_comments(url, page=5)  # 需要爬取的页面数
+    all_comments = get_all_comments(url, page=2)  # 需要爬取的页面数
     print(all_comments)
         
    
