@@ -83,7 +83,7 @@ def get_all_comments(url,page):
         encSecKey = get_encSecKey()
         json_text = get_json(url,params,encSecKey)
         json_dict = json.loads(json_text)
-        print(json_dict)
+       
         try:   
             for item in json_dict['comments']:
                 comment = item['content'] # 评论内容
