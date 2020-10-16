@@ -7,6 +7,7 @@ import time
 import random
 
 
+<<<<<<< HEAD
 
 
 
@@ -18,6 +19,11 @@ headers = {
     'Origin':'https://music.163.com',
     'Referer':'https://music.163.com/song?id=1421256202',
     'User-Agent':'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/86.0.4240.75 Safari/537.36 Edg/86.0.622.38'
+=======
+headers = {
+    'Cookie': 'appver=1.5.0.75771;',
+    'Referer': 'http://music.163.com/'
+>>>>>>> parent of 7b92964... Update catch.py
 }
 
 first_param = '{rid:"", offset:"20", total:"false", limit:"50", csrf_token:""}'
