@@ -4,14 +4,20 @@ import base64
 import requests
 import json
 import time
+
 import random
+from wordcloud import WordCloud
+import matplotlib
+import matplotlib.pyplot as plt
+import codecs
+import jieba
 
 
 headers = {
     'Cookie': 'appver=1.5.0.75771;',
     'Host':'music.163.com',
     'Origin':'https://music.163.com',
-    'Referer':'https://music.163.com/song?id=374597',
+    'Referer':'https://music.163.com/song?id=1297747234',
     'User-Agent':'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/86.0.4240.75 Safari/537.36 Edg/86.0.622.38'   
 }
 
@@ -81,14 +87,66 @@ def get_all_comments(url,page):
         except:
             print(json_dict)
         print('第%d页抓取完毕!' % (i+1))
-        time.sleep(random.choice(range(2,10)))  #爬取过快的话，设置休眠时间，跑慢点，减轻服务器负担
+        sleep_time=random.choice(range(6,15))
+        print(f"休眠：{sleep_time}s")
+        time.sleep(sleep_time)  #爬取过快的话，设置休眠时间，跑慢点，减轻服务器负担
     return all_comments_list
 
 
+
+    #生成词云
+def wordcloud(all_comments):
+    # 对句子进行分词，加载停用词
+    # 打开和保存文件时记得加encoding='utf-8'编码，不然会报错。
+    def seg_sentence(sentence):
+        sentence_seged = jieba.cut(sentence.strip(), cut_all=False)  # 精确模式
+        stopwords = [line.strip() for line in open('stopwords.txt', 'r', encoding='utf-8').readlines()]  # 这里加载停用词的路径
+        outstr = ''
+        for word in sentence_seged:
+            if word not in stopwords:
+                if word != 't':
+                    outstr += word
+                    outstr += " "
+        return outstr
+    for line in all_comments:
+        line_seg = seg_sentence(line)  # 这里的返回值是字符串
+        with open('outputs.txt', 'a', encoding='utf-8') as f:
+            f.write(line_seg + 'n')
+
+    data = open('outputs.txt', 'r', encoding='utf-8').read()
+    my_wordcloud = WordCloud(
+        scale=2,
+        background_color='white',  #设置背景颜色
+        max_words=200,  #设置最大实现的字数
+        max_font_size=50,
+        font_path=r'simhei.ttf',  #设置字体格式，如不设置显示不了中文
+    ).generate(data)
+
+    plt.figure()
+    plt.imshow(my_wordcloud)
+    plt.axis('off')
+    plt.show()  # 展示词云
+
+
+
 if __name__ == "__main__":
-    url = "http://music.163.com/weapi/v1/resource/comments/R_SO_4_1421256202/?csrf_token="   #  R_SO_4_加上歌曲的id就是抓取评论的API
+    url = "http://music.163.com/weapi/v1/resource/comments/R_SO_4_1297747234/?csrf_token="   #  R_SO_4_加上歌曲的id就是抓取评论的API
     
-    all_comments = get_all_comments(url, page=2)  # 需要爬取的页面数
+    all_comments = get_all_comments(url, page=10)  # 需要爬取的页面数    
+    #all_comments=['@予笙小姐姐', '意思就是如果状元郎如果娶了她的话，皇上就会诛他九族.', '阿淦a', '桃李春风，浊酒与誰共饮？', '所以就是爱男生没有一个好东西', '这有什么的', '敢不敢玩把大的，把自己喜欢的人的名字打出来，直接打全名[大笑]', '历史不会改变', '对不起，我当时心情太不好了，语言可能过于激烈了，我当时喜欢的人喜欢的同桌也喜欢别人了，可能看到这种讨论爱情的的评论可能就有点不高兴……对不起我会删除评论的', '收到', '酒入豪肠，七分酿成了月光，余下的三分，啸成了剑气。绣口一吐，就是半个盛唐。', '叶长安，有吗？', '[多多大哭]', '抖音又毁了一首歌', '谪仙人', '高手过招', '加油', '有趣的灵魂啊', '所以是什么意思', '我是不听古风的，只因这首是李白[大笑]', '为什么我想到了探子打算报告禁急坏状况，将军无奈的张开双臂迎接死……', '平陆成江？', '郭子仪我家的祖先，家里老人给我讲过', '我还记得叶里，唱东宫《初见》，把我听哭的', '为啥说的跟杜甫他老人家引发的乱世一样', '世上谪仙——姚温玉\n红尘浪客——乔天涯', '同城', '有李白的浪劲儿了', '目前大体三种说法，不止醉酒捞月这一个', '发现评论区个个都是文豪大佬', '你可曾执笔写春秋？', '盗no', '相传死于醉酒捞月，可是世人又说李白千杯不醉 ，呵', '我们班要整体换座位 希望我的同桌学习好一点可爱一点吧啊啊啊啊啊', '这个歌太火了', '八表同昏', '所以要跟懂的人讲，懂自然懂。不懂装懂就是恶臭，人生懂你的就几个就好了，朋友太多消耗自己的时间，不过正常社交该有还是有', '哎呀！你给我点过赞诶', '就算没有拯救世界又怎么样。我爸爸依然是我心中的英雄', '毕业的前一天，他看着同桌的她戴着耳机写着卷子，很想对她表白却不好意思开口，终于，他试探着叫了她的名字，她一点反应也没有，依然写着卷子，于是他很小声的把想对她说的话全部说出；打铃下课了，他离开了座位，同桌的她松开暂停键泪流满面。']
+    
     print(all_comments)
+
+    #词云打印
+    #wordcloud(all_comments)
+
+    file_tag=time.strftime("%Y_%m_%d_%H_%M_%S", time.localtime())
+    #file_tag='歌名'
+
+    save_path=f'all_comments_{file_tag}.txt'
+
+    for line in all_comments:
+        with open(save_path, 'a', encoding='utf-8') as f:
+            f.write(line+'\n')
         
    
