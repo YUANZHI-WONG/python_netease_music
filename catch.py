@@ -6,11 +6,8 @@ import json
 import time
 
 import random
-
-import matplotlib
-import matplotlib.pyplot as plt
 import codecs
-import jieba
+
 from wordclound_show import *         #这个是我自定义的头文件
 
 #访问标头
@@ -92,8 +89,9 @@ def get_all_comments(url,page_o,page_d):
     all_comments_list = [] # 存放所有评论
     for i in range(page_o,page_d):  # 逐页抓取
 
-        params = get_params(i)
-        encSecKey = get_encSecKey()
+        params = get_params(i)#变动的
+        encSecKey = get_encSecKey()#固定的
+
         json_text = get_json(url,params,encSecKey)
 
         json_dict = json.loads(json_text) #JSON格式的字符串处理办法      
@@ -102,12 +100,15 @@ def get_all_comments(url,page_o,page_d):
                 comment = item['content']                #评论内容
                 comment_info = str(comment)              #str()函数的作用：？
                 all_comments_list.append(comment_info)   #list.append() 给 列表型变量追加 内容
+
+            
         except:
             print(json_dict)                             #try：  except: 的用法？
         
         print('第%d页抓取完毕!' %(i))                    #格式化屏幕打印的写法 print('  %变量类型简写  ' %(变量名))
         
-        sleep_time=random.choice(range(6,15))             #从6到15之间取个随机数，作为休眠时间
+        #sleep_time=random.choice(range(6,15))             #从6到15之间取个随机数，作为休眠时间
+        sleep_time=random.randrange(6,15)
         print(f"休眠:{sleep_time}s")                      #复习 python字符串前缀u，b，r，f用法
                                                           # python的单引号 '' 和双引号 ""  没区别,可以混用  
         time.sleep(sleep_time)                            #设置休眠时间，跑慢点，减轻服务器负担，避免触发反爬机制
@@ -118,14 +119,16 @@ if __name__ == "__main__":
     url = "http://music.163.com/weapi/v1/resource/comments/R_SO_4_1297747234/?csrf_token="   #  R_SO_4_xxxxxxx加上歌曲的id就是抓取评论的API接口
     
     all_comments = get_all_comments(url, page_o=1,page_d=7)          # 需要爬取的页面范围    
+    
     print(all_comments)                                              #打印爬到的内容
+    #同时遍历两个列表
 
-    file_tag=time.strftime("%Y_%m_%d_%H_%M_%S", time.localtime())    #将当前时间作为输出文本文件名
-    #file_tag='歌名'                                                 #将歌曲名为输出文本文件名
+    #file_tag=time.strftime("%Y_%m_%d_%H_%M_%S", time.localtime())    #将当前时间作为输出文本文件名
+    file_tag='All Night Long'                                                 #将歌曲名为输出文本文件名
 
     save_path=f'all_comments_{file_tag}.txt'                         #文件保存路径
 
-    for line in all_comments:
-        with open(save_path, 'a', encoding='utf-8') as f:            #学习Python 文件输出的方法，参数'a'的含义？？？再了解下其他的同类型参数的作用
+    for line in all_comments: #遍历
+        with open(save_path, 'a', encoding='utf-8') as f:            #学习Python 文件输出的方法，参数'a'的含义？？？再了解下其他的同类型参数的作用 x +x w b
             f.write(line+'\n')                                       #学习转义字符。 '\n' 作用为换行
    
