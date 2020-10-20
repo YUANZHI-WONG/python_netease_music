@@ -80,6 +80,7 @@ def get_json(url, params, encSecKey):
     
     response = requests.post(url, headers=headers, data=data)                  #发送post请求，变量response存储返回的内容
     #response = requests.post(url, headers=headers, data=data, proxies=proxy)  #这个是加了代理的用法
+    print(response.status_code)
     return response.content  #这是一个JSON 格式的字符串
 
 #抓取评论
@@ -98,24 +99,24 @@ def get_all_comments(url,page_o,page_d):
 
         json_dict = json.loads(json_text) #JSON格式的字符串处理办法      
         try:   
-            for item in json_dict['hotComments']:    #热评的格式还需要重新解析
+            for item in json_dict['hotComments']:    #热评的数量比较少
              #for item in json_dict['comments']:
                 try:
                     comment = item['content']                #评论内容
                     comment_info = str(comment)              #str()函数的作用：？
                     all_comments_list.append(comment_info)   #list.append() 给 列表型变量追加 内容
                 except:
-                    print(item)             
+                    print(comment)             
         except:
             print('\n')                             #try：  except: 的用法？
         
-        print('第%d页抓取完毕!' %(i))                    #格式化屏幕打印的写法 print('  %变量类型简写  ' %(变量名))
+        print('第%d页抓取完毕!' %(i))                      #格式化屏幕打印的写法 print('  %变量类型简写  ' %(变量名))
         
-        #sleep_time=random.choice(range(6,15))             #从6到15之间取个随机数，作为休眠时间
+        #sleep_time=random.choice(range(6,15))            #从6到15之间取个随机数，作为休眠时间
         sleep_time=random.randrange(6,15)
 
         print(f"休眠:{sleep_time}s") 
-        #print('休眠:%d s'  %(sleep_time))                 #复习 python字符串前缀u，b，r，f用法
+        #print('休眠:%d s'%(sleep_time))                  #复习 python字符串前缀u，b，r，f用法
                                                           # python的单引号 '' 和双引号 ""  没区别,可以混用  
         time.sleep(sleep_time)                            #设置休眠时间，跑慢点，减轻服务器负担，避免触发反爬机制
     return all_comments_list
@@ -127,10 +128,10 @@ if __name__ == "__main__":
     all_comments = get_all_comments(url, page_o=1,page_d=3)          # 需要爬取的页面范围    
     
     print(all_comments)                                              #打印爬到的内容
-    #同时遍历两个列表
+
 
     file_tag=time.strftime("%Y_%m_%d_%H_%M_%S", time.localtime())    #将当前时间作为输出文本文件名
-    #file_tag='All Night Long'                                                 #将歌曲名为输出文本文件名
+    #file_tag='All Night Long'                                        #将歌曲名为输出文本文件名
 
     save_path=f'all_comments_{file_tag}.txt'                         #文件保存路径
 
