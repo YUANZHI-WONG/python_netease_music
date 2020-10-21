@@ -102,7 +102,7 @@ def get_all_comments(url,page_o,page_d):
             for item in json_dict['hotComments']:    #热评的数量比较少
              #for item in json_dict['comments']:
                 try:
-                    comment = item['content']                #评论内容
+                    comment = item['content']               #评论内容
                     comment_info = str(comment)              #str()函数的作用：？
                     all_comments_list.append(comment_info)   #list.append() 给 列表型变量追加 内容
                 except:

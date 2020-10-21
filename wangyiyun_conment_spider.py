@@ -89,6 +89,7 @@ def make_word_cloud(text):
 def main(offset,i):
 	parse_json_data(get_one_comment(offset))
 
+
 if __name__=="__main__":
     for i in range(3):
         main(i*20,i)
