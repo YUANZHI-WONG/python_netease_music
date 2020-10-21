@@ -16,7 +16,7 @@ headers = {
     'Host':'music.163.com',
     'Origin':'https://music.163.com',
     'Referer':'https://music.163.com/song?id=1297747234',#该地址为歌曲的页面网址
-    'User-Agent':'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/86.0.4240.75 Safari/537.36 Edg/86.0.622.38'   
+    'User-Agent':'xxxxxxxxxxxxxxxxxxx'   
 }
 
 #proxy = {'http':'175.42.158.68:9999'}   #加个代理，网易就不会干掉我的IP，但是.....目前这个代理不能用
