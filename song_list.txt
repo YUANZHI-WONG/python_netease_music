@@ -10,7 +10,7 @@
 <meta name="google-site-verification" content="rh2irYN2Lu028orAseOD3aXd5u7Eu1mqTfhoVaw2Ihg" />
 <meta name="shenma-site-verification" content="12da4afc02bfe908ed0667f287167d11_1555581349" />
 <meta property="qc:admins" content="27354635321361636375" />
-<link rel="canonical" href="https://music.163.com/playlist?id=2722916074">
+<link rel="canonical" href="https://music.163.com/playlist?id=2722916074">  
 <meta name="applicable-device" content="pc">
 <link rel="alternate" media="only screen and (max-width: 640px)" href="https://music.163.com/m/playlist?id=2722916074">
 <meta name="mobile-agent" content="format=html5;url=https://music.163.com/m/playlist?id=2722916074">

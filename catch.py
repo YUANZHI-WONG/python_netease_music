@@ -1,12 +1,13 @@
 # -*- coding: utf-8 -*-
-from Crypto.Cipher import AES
-import base64
-import requests
-import json
-import time
 
+from Crypto.Cipher import AES #网页
+import base64#网页
+import requests#网页
+
+import time
 import random
-import codecs
+
+import json 
 
 from wordclound_show import *         #这个是我自定义的头文件
 
@@ -25,14 +26,17 @@ headers = {
 #first_param = xxxxxxxxxxx         #定义在get_params()函数里了，为局部变量，只能在函数范围内使用
 second_param = "010001"            #全局变量，代码里哪里都能直接用
 third_param = "00e0b509f6259df8642dbc35662901477df22677ec152b5ff68ace615bb7b725152b3ab17a876aea8a5aa76d2e417629ec4ee341f56135fccf695280104e0312ecbda92557c93870114af6c9d05c4f7f0c3685b7a46bee255932575cce10b424d813cfe4875d3e82047b97ddef52741d546b8e289dc6935b3ece0462db0a22b8e7"
-forth_param = "0CoJUm6Qyw8W8jud"
+forth_param = "0CoJUm6Qyw8W8jud" 
 
+#爬虫框架
+#网页请求返回
+#页面代码
 
 
 #获取参数
 #    page: 爬取的页码 
 def get_params(page):  
-    iv = b"0102030405060708"                        #引申学习 ——> python字符串前缀u，b，r，f用法
+    iv = b"0102030405060708"   #密钥         #引申学习 ——> python字符串前缀u，b，r，f用法
     first_key = forth_param
     second_key = 16 * 'F'
     if(page == 1): # 如果为第一页
@@ -74,7 +78,7 @@ def AES_encrypt(text, key, iv):
 #    encSecKey: 密钥
 def get_json(url, params, encSecKey):
     data = {
-         "params": params,
+         "params": params,# 密文：由页码加密后生成；
          "encSecKey": encSecKey
     }    
     
@@ -92,17 +96,18 @@ def get_all_comments(url,page_o,page_d):
     all_comments_list = [] # 存放所有评论
     for i in range(page_o,page_d):  # 逐页抓取
 
-        params = get_params(i)#变动的
+        params = get_params(i)#变动的  
         encSecKey = get_encSecKey()#固定的
 
         json_text = get_json(url,params,encSecKey) ########
 
         json_dict = json.loads(json_text) #JSON格式的字符串处理办法      
         try:   
-            for item in json_dict['hotComments']:    #热评的数量比较少
-             #for item in json_dict['comments']:
+            #for item in json_dict['hotComments']:    #热评的数量比较少
+            for item in json_dict['comments']:
                 try:
                     comment = item['content']               #评论内容
+             
                     comment_info = str(comment)              #str()函数的作用：？
                     all_comments_list.append(comment_info)   #list.append() 给 列表型变量追加 内容
                 except:
@@ -121,7 +126,7 @@ def get_all_comments(url,page_o,page_d):
         time.sleep(sleep_time)                            #设置休眠时间，跑慢点，减轻服务器负担，避免触发反爬机制
     return all_comments_list
 
-
+#主函数  main  
 if __name__ == "__main__":
     url = "http://music.163.com/weapi/v1/resource/comments/R_SO_4_1297747234/?csrf_token="   #  R_SO_4_xxxxxxx加上歌曲的id就是抓取评论的API接口
     
