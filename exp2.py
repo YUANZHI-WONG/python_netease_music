@@ -6,28 +6,6 @@ import scipy.signal
 x = np.arange(0,105,5)
 
 
-y1=[0.4181818, 
- 0.10723301,
- 0.09172121, 
- 0.18837228, 
- 0.61206671, 
- 0.48093   , 
- 0.32650818, 
- 0.35039491, 
- 0.58039491, 
- 0.75039491, 
- 0.72039491, 
- 0.325578443,
- 0.44382501,
- 0.68094895, 
- 0.53431938, 
- 0.64661444, 
- 0.59955388, 
- 0.34313231, 
- 0.47205522,
- 0.3118161,0.5]
-
-
 y2=[1.00,
 2.36 ,
 0.78,
@@ -72,28 +50,17 @@ y3=[
 1.19 ,
 1.68 ,
 1.25 ,
-1.3
+1.5
 ]
 
-
-
-
-#y2 = -1 * y1
-#y3=6*y1
-
 fig, ax1 = plt.subplots()
-
-#ax3=ax1.twinx()
-
-l1, =ax1.plot(x,y1,linestyle = '-', # 折线类型
+l1, =ax1.plot(x,y3,linestyle = '-', # 折线类型
          linewidth = 1, # 折线宽度
          color = 'steelblue', # 折线颜色
          #marker = 'o', # 点的形状
          markersize = 2, # 点的大小
          markeredgecolor='black', # 点的边框色
          markerfacecolor='steelblue') # 点的填充色
-
-
 
 
 
@@ -108,7 +75,7 @@ ax1.set_xticklabels(x_ticks_label)
 
 
 ax1.set_xlabel("time")
-ax1.set_ylabel("Density of Pedestrians",color='g')
+ax1.set_ylabel("Average minimum distance between pedestrians",color='g')
 
 
 # 设置图例
